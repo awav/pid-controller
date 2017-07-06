@@ -3,3 +3,5 @@ build
 tags
 .editorconfig
 *.gch
+Makefile
+pid
