@@ -56,9 +56,9 @@ int main() {
         if (event == "telemetry") {
           // j[1] is the data JSON object
           double cte = std::stod(j[1]["cte"].get<std::string>());
-          double speed = std::stod(j[1]["speed"].get<std::string>());
+          //double speed = std::stod(j[1]["speed"].get<std::string>());
           //double angle = std::stod(j[1]["steering_angle"].get<std::string>());
-          std::cout << speed << std::endl;
+          //std::cout << speed << std::endl;
 
           pid.UpdateError(cte);
           steer_ema = - alpha * pid.TotalError() + (1 - alpha) * steer_ema;
@@ -67,7 +67,7 @@ int main() {
           msgJson["steering_angle"] = steer_ema;
           msgJson["throttle"] = 0.35;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-          std::cout << msg << std::endl;
+          //std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }
       } else {
