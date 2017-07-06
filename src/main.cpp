@@ -30,9 +30,9 @@ std::string hasData(const std::string &s) {
 int main() {
   uWS::Hub h;
 
-  const double kp = 0.11;
+  const double kp = 0.1;
   const double ki = 0.00001;
-  const double kd = 3.55;
+  const double kd = 1.45;
   const double min_out = -1;
   const double max_out = 1;
 
