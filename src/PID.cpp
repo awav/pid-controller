@@ -36,7 +36,7 @@ void PID::UpdateError(double cte) {
   }
 
   p_term_ = kp_ * cte;
-  d_term_ = -kd_ * (cte_last_ - cte);
+  d_term_ = kd_ * (cte - cte_last_);
 
   pid_last_ = p_term_ + i_term_ + d_term_;
   pid_last_ = bound_minmax(pid_last_);
@@ -147,17 +147,6 @@ bool PID::Tune() {
       avgInput += val;
     }
     avgInput /= (double)(inputCount + 1);
-
-#if defined(AUTOTUNE_DEBUG)
-    Serial.print(F("iMax "));
-    Serial.println(iMax);
-    Serial.print(F("iMin "));
-    Serial.println(iMin);
-    Serial.print(F("avgInput "));
-    Serial.println(avgInput);
-    Serial.print(F("stable "));
-    Serial.println((iMax - iMin) <= 2.0 * workingNoiseBand);
-#endif
 
     // if recent inputs are stable
     if ((iMax - iMin) <= 2.0 * workingNoiseBand) {
