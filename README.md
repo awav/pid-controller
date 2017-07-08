@@ -13,13 +13,13 @@ PID controller or Proportional–Integral–Derivative controller is a control l
 
 * **Proportion term**. The proportion term defines direction and how fast the algorithm should compensate the error. It is easy to overshoot using only this gain and as a result the control output oscillates around target value. The proportion parameter `Kp` is non-negative number.
 * **Integral term**. Integral gain addresses how long and how far measured value has been from the goal. The integral term sums error `e(t)`. If even a small error persists, the total sum will grow and influence the control output. The integral parameter `Ki` is non-negative number.
-* **Derivative term**. The derivative term, in fact, irons the oscillation made by proportion term. More precisely, it represents how fast the error is changin at current moment. Employing error changing rate, the derivative term alleviates overshooting caused by proportion term.
+* **Derivative term**. The derivative term, in fact, irons the oscillation made by proportion term. More precisely, it represents how fast the error is changin at current moment. Employing error changing rate, the derivative term alleviates overshooting caused by proportion term. The derivative `Kd` parameter is non-negative number.
 
 ### Tuning
 
 Nowadays plenty number of algorithms are available for tuning PID controller coefficients. Moreover, some approaches provide auto-tuning properties, thereafter the PID controller can be adjusted in real time depending on magnitude of the cross-track error. You can find auto-tuning PID implementations [here](http://uk.mathworks.com/matlabcentral/fileexchange/4652-autotunerpid-toolkit?requestedDomain=www.mathworks.com) or [here](http://playground.arduino.cc/Code/PIDLibrary).
 
-I started with Twiddle algorithm which was advertised in Udacity course as simple and stable. I was not satisfied with final results, because it was even bad as starting point for parameters hand-crafting.
+I started with Twiddle algorithm which was advertised in Udacity course as simple and stable. I was not satisfied with final results, because it was even very bad as a starting point for parameters in further hand-crafting.
 
 I set eyes on [Ziegler–Nichols method](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method) discovered back in 1949. It has even more simple and precise rules to achieve efficient and semi-optimal values of coefficients. Here they are:
 
@@ -29,6 +29,8 @@ I set eyes on [Ziegler–Nichols method](https://en.wikipedia.org/wiki/Ziegler%E
 4. Turn on **I** and **D** components by using values from **ZN** table: `Kp = 0.6 * critical_gain = 0.18`, `Ki = 0.5 * time_period = 50` and `Kd = 0.13 * time_period = 13`.
 
 I used this values as starting point for further hand-craft tuning. I noticed that PID controller doesn't react at all if integral component is set to zero, so I concluded that steering angle is free from bias and assigned small value _0.00001_ to it. The final coefficients I have got: `Kp = 0.1`, `Ki = 0.00001` and `Kd = 1.45`. But through it all, the car had sudden and quick movements, especially on turns. When added [exponential smoothing](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) to PID control output, the bizarre discrete car turns almost disappeared.
+
+[Video](https://drive.google.com/open?id=0B90SlGxx-BAeZjlTZEd5a0dHczQ) how car finishes track successfully.
 
 ### Experiments
 
