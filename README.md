@@ -47,3 +47,10 @@ You can see below some experiments with changing P, I, and D parameters. Initial
 * Effect of D component. Changed from _1.45_ to _20_. Whatever value I tried car always could finish the racetrack. Output control oscillation is around irrespective our senses. No matter how smoothly car is moving, output wiggles near to setpoint (target value). High D component hardly tries to balance "micro" error, but instead we observe car shaking on the road.
 
 ![Alt Text](data/sdc-d.gif)
+
+### Build and run project:
+
+```
+$ ./build.sh
+$ ./run.sh
+```
